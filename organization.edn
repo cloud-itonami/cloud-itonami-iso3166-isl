@@ -1,0 +1,12 @@
+;; Real-world organization location / contact.
+;; :head-role is institutional title only — no personal names.
+{:ooyake-id "gov.isl"
+  :official-url "http://www.iceland.is/"
+  :name-en "Iceland"
+  :name-local "Ísland"
+  :wikidata "Q189"
+  :head-role-note "institutional office title only; personal names of current office-holders are intentionally NOT stored"
+  :contact-page "https://www.wikidata.org/wiki/Q1764"
+  :sourced-from "com-etzhayyim-ooyake gov-units (verbatim where present)"
+  :hq {:line-en "Reykjavík" :country "isl" :kind "capital" :provenance "https://www.wikidata.org/wiki/Q1764" :last-verified "2026-06-04" :sourcing "authoritative"}
+}
