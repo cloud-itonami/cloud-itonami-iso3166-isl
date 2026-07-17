@@ -1,0 +1,14 @@
+;; schema/culture.edn — DataScript schema for `culture.facts` (ADR-2607171400,
+;; cloud-itonami-municipality-culture-catalog). Same shape across every
+;; cloud-itonami-municipality-* sibling.
+
+{:culture/id {:db/unique :db.unique/identity}
+ :culture/name {}
+ :culture/name-local {}
+ :culture/municipality {:db/index true}
+ :culture/country {:db/index true}
+ :culture/kind {:db/index true}
+ :culture/summary {}
+ :culture/url {}
+ :culture/url-provenance {:db/index true}
+ :culture/retrieved-at {}}

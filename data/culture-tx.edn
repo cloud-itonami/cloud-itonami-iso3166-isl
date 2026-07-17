@@ -1,0 +1,15 @@
+;; data/culture-tx.edn — DataScript tx-data derived from src/culture/facts.cljc
+;; `culture.facts/catalog` (ADR-2607171400 addendum 2, Wave 1 country-level).
+;; Same shape across every cloud-itonami-iso3166-* sibling. Do not hand-edit;
+;; regenerate from the catalog.
+
+[
+#:culture{:id "isl.dish.hakarl", :name "Hákarl", :country "ISL", :kind :dish, :summary "National dish of Iceland consisting of Greenland shark or other sleeper shark cured with a particular fermentation process and hung to dry for four to five months.", :url "https://en.wikipedia.org/wiki/H%C3%A1karl", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "isl.dish.thorramatur", :name "Þorramatur", :country "ISL", :kind :dish, :summary "Selection of traditional Icelandic foods, mostly cooked meat and fish products, served during the midwinter season between January and March.", :url "https://en.wikipedia.org/wiki/%C3%9Eorramatur", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "isl.dish.rugbraud", :name "Rúgbrauð", :country "ISL", :kind :dish, :summary "Icelandic dark, dense and sweet rye bread, traditionally baked in a pot or steamed in wooden casks buried near geysers.", :url "https://en.wikipedia.org/wiki/R%C3%BAgbrau%C3%B0", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "isl.product.skyr", :name "Skyr", :country "ISL", :kind :product, :summary "Traditional Icelandic cultured dairy product with the consistency of strained yogurt and a milder flavor, consumed as a high-protein, low-fat food.", :url "https://en.wikipedia.org/wiki/Skyr", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "isl.beverage.brennivin", :name "Brennivín", :country "ISL", :kind :beverage, :summary "Icelandic distilled beverage flavored with caraway, considered the country's signature distilled beverage.", :url "https://en.wikipedia.org/wiki/Brenniv%C3%ADn", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "isl.craft.lopapeysa", :name "Lopapeysa", :country "ISL", :kind :craft, :summary "Icelandic style of sweater originating in the early or mid-20th century, with a distinctive yoke design, traditionally knitted from Icelandic lopi wool.", :url "https://en.wikipedia.org/wiki/Lopapeysa", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "isl.festival.thorrablot", :name "Þorrablót", :country "ISL", :kind :festival, :summary "Icelandic midwinter celebration held from mid-January to mid-February with dinners, speeches and poetry, revived in its modern form during the 19th-century nationalist movement.", :url "https://en.wikipedia.org/wiki/%C3%9Eorrabl%C3%B3t", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "isl.heritage.thingvellir", :name "Þingvellir National Park", :country "ISL", :kind :heritage, :summary "Site of Iceland's ancient parliament from 930 to 1798, now a national park on the Mid-Atlantic Ridge; a UNESCO World Heritage Site designated in 2004.", :url "https://en.wikipedia.org/wiki/%C3%9Eingvellir", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+]
