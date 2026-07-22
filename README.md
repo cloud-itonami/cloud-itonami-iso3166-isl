@@ -1,6 +1,17 @@
 # cloud-itonami-iso3166-isl
 
-Open ISO 3166 Blueprint for **ISL**: Iceland.
+Open ISO 3166 Blueprint for **ISL**: Iceland. **`:implemented`** --
+`src/marketentry/*` is a running langgraph-clj StateGraph actor: a
+MarketEntry-LLM advisor sealed behind an independent Market-Entry
+Compliance Governor. Flagship check `stale-procurement-authority`
+(catches an LLM citing the decommissioned Ríkiskaup instead of the
+current Fjársýslan/FMA); domain checks `vsk-unregistered`,
+`vat-agent-missing`, `nonresident-clearance-missing`,
+`fisheries-cap-exceeded`.
+
+```
+clojure -M:dev:test
+```
 
 This repository designs a forkable OSS business for an independent
 public-sector market-entry consultant: an already-incorporated operator
@@ -40,6 +51,55 @@ conclusion the governor has not cleared. `:filing/submit` is never in any
 phase's `:auto` set — it always requires human sign-off (mirrors
 `cloud-itonami-M6910`'s `filing-submit-never-auto-at-any-phase`
 invariant).
+
+## Governor checks
+
+`marketentry.governor/check` runs every proposal through these HARD
+checks (a human approver cannot override a HARD violation) before the
+confidence-floor / actuation gate. Each check's regulatory fact is
+`marketentry.facts`-cited; source URLs below were fetched and verified,
+not invented:
+
+| Check | Fires on | Source |
+|---|---|---|
+| `no-spec-basis` | any `jurisdiction/assess`\|`filing/draft`\|`filing/submit` proposal that doesn't cite an official source | n/a (structural) |
+| `evidence-incomplete` | `filing/draft`\|`filing/submit` before the jurisdiction's full evidence checklist (Fyrirtækjaskrá registration, VSK/VAT registration, Fjársýslan procurement registration, agent record) is on file | https://www.skatturinn.is/english/company-registration/register-a-company/private-limited-companies/ |
+| `stale-procurement-authority` **(flagship)** | a proposal citing **Ríkiskaup** as the procurement authority — Ríkiskaup was formally decommissioned 2024-08-01, all responsibilities transferred to **Fjársýslan (FMA)** | https://island.is/en/news/the-financial-management-authority-fma-has-assumed-all-responsibilities-of |
+| `vsk-unregistered` | `filing/submit` where `:requires-vsk-registration?` is true but `:vsk-registered?` is false — Iceland has **no VAT registration threshold**; foreign entities must register from the first taxable supply, via form RSK 5.02 | https://www.skatturinn.is/english/companies/value-added-tax/ |
+| `vat-agent-missing` | `filing/submit` where `:requires-vat-agent?` is true but `:has-vat-agent?` is false — a foreign company without a permanent establishment must appoint a locally domiciled agent for VAT notification/collection/remittance | https://www.skatturinn.is/english/companies/value-added-tax/ |
+| `nonresident-clearance-missing` | `filing/submit` in a sector (energy, aviation, real estate) where Act No. 34/1991 exempts EEA-established operators, but the engagement is non-EEA-established and lacks clearance | Act on Investment by Non-Residents in Business Enterprises, No. 34/1991 (amended by Act No. 121/1993, Act No. 46/1996); general register: https://www.althingi.is/lagas/nuna/ |
+| `fisheries-cap-exceeded` | `filing/submit` in the **fisheries** sector, foreign ownership above 25% (extendable to 33% only under statutory conditions) — **the one sector where EEA-established status does NOT waive the cap** | Act No. 34/1991 (as amended) |
+| `engagement-fee-mismatch` | `filing/submit` where `:claimed-fee` ≠ independently recomputed `base-fee + monthly-rate x monitoring-months` | n/a (arithmetic) |
+| `already-drafted` / `already-submitted` | a second `filing/draft`/`filing/submit` for the same engagement | n/a (structural, off dedicated `:drafted?`/`:submitted?` facts) |
+
+Public procurement itself is governed by the Public Procurement Act,
+Law No. 120/2016 (Lög nr. 120/2016 um opinber innkaup), which
+implements EU Directive 2014/24/EU as transposed via the EEA Agreement
+— Iceland is an EEA/EFTA member, not an EU member state.
+Source: https://www.althingi.is/lagas/nuna/2016120.html
+
+## Actuation
+
+`:filing/draft` and `:filing/submit` are the two real-world acts this
+actor performs (preparing a portal registration package, and actually
+submitting one). Two independent layers agree neither ever
+auto-commits:
+
+- **`marketentry.phase`**: `:filing/draft`/`:filing/submit` are
+  permanently absent from every rollout phase's `:auto` set (phase
+  0 through 3) — not a rollout milestone still to come, a structural
+  fact.
+- **`marketentry.governor`**: both ops carry
+  `:stake :actuation/draft-filing`/`:actuation/submit-filing`, members
+  of `governor/high-stakes`, which forces `:escalate?` even when the
+  proposal is otherwise clean.
+
+Every `filing/draft`/`filing/submit` therefore always reaches
+`operation.cljc`'s `:request-approval` node
+(`interrupt-before #{:request-approval}`) and pauses for a real human
+market-entry operator's sign-off — see `test/marketentry/
+governor_contract_test.clj`'s `draft-always-escalates-then-human-
+decides` / `submit-always-escalates-then-human-decides`.
 
 ## What this is NOT
 
