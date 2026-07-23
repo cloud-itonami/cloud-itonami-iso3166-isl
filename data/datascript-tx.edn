@@ -1,0 +1,34 @@
+;; data/datascript-tx.edn — DataScript tx-data derived from src/statute/facts.cljc
+;; `statute.facts/catalog` (ADR-2607141700 Wave 0). Same shape as sibling files.
+;; Do not hand-edit; regenerate from the catalog.
+
+[#:statute{:id "isl.einkahlutafelagalog-1994"
+           :title "Lög um einkahlutafélög (Act on Private Limited Companies)"
+           :jurisdiction "ISL"
+           :kind :law
+           :law-number "Law No. 138/1994"
+           :url "https://www.althingi.is/lagas/nuna/1994138.html"
+           :url-provenance :official-althingi
+           :enacted-date "1995-01-01"
+           :retrieved-at "2026-07-23"
+           :topic [:corporate-governance :incorporation]}
+ #:statute{:id "isl.personuverndarlog-2018"
+           :title "Lög um persónuvernd og vinnslu persónuupplýsinga (Data Protection Act -- implements EU Regulation 2016/679, GDPR)"
+           :jurisdiction "ISL"
+           :kind :law
+           :law-number "Law No. 90/2018"
+           :url "https://www.althingi.is/lagas/nuna/2018090.html"
+           :url-provenance :official-althingi
+           :enacted-date "2018-07-15"
+           :retrieved-at "2026-07-23"
+           :topic [:data-protection :privacy]}
+ #:statute{:id "isl.vinnuverndarlog-1980"
+           :title "Lög um aðbúnað, hollustuhætti og öryggi á vinnustöðum (Act on Working Environment, Health and Safety in Workplaces)"
+           :jurisdiction "ISL"
+           :kind :law
+           :law-number "Law No. 46/1980"
+           :url "https://www.althingi.is/lagas/nuna/1980046.html"
+           :url-provenance :official-althingi
+           :enacted-date "1981-01-01"
+           :retrieved-at "2026-07-23"
+           :topic [:labor :employment]}]

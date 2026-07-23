@@ -132,6 +132,34 @@ See [`docs/business-model.md`](docs/business-model.md) and
 
 AGPL-3.0-or-later.
 
+## Statute catalog
+
+Alongside `marketentry.facts` (public-procurement market-entry only,
+narrow scope), this repo carries a **general-law compliance catalog**
+(ADR-2607141700, `cloud-itonami-compliance-fact-federation`) — statutes
+a company generally must track for compliance, orthogonal to the
+procurement-specific facts above:
+
+| Topic | Law | Source |
+|---|---|---|
+| corporate-governance / incorporation | Lög um einkahlutafélög (Act on Private Limited Companies), Law No. 138/1994 | https://www.althingi.is/lagas/nuna/1994138.html |
+| data-protection / privacy | Lög um persónuvernd og vinnslu persónuupplýsinga (Data Protection Act, implements EU Regulation 2016/679 GDPR), Law No. 90/2018 | https://www.althingi.is/lagas/nuna/2018090.html |
+| labor / employment | Lög um aðbúnað, hollustuhætti og öryggi á vinnustöðum (Act on Working Environment, Health and Safety in Workplaces), Law No. 46/1980 | https://www.althingi.is/lagas/nuna/1980046.html |
+
+- `src/statute/facts.cljc` — the catalog, source of truth.
+- `schema/statute.edn` — DataScript schema.
+- `data/datascript-tx.edn` — derived DataScript tx-data (regenerated
+  from the catalog, never hand-edited).
+
+This catalog does **not** repeat or contradict `marketentry.facts`'s
+procurement-authority currency trap (Fjársýslan/FMA is current, NOT the
+decommissioned Ríkiskaup) — that fact belongs to the public-procurement
+domain `marketentry.facts` already owns; nothing here cites Ríkiskaup.
+Same provenance discipline as every catalog in this repo: every entry
+cites an official source that was actually fetched and read, never
+invented. An item not in `statute.facts/catalog` has no spec-basis —
+extend the catalog, never fabricate an id/url.
+
 ## Culture catalog
 
 This repo carries a **country-level regional-culture catalog**
@@ -140,8 +168,7 @@ Wave 1, in `com-junkawasaki/root`) — national dishes, protected products,
 beverages, crafts, festivals and heritage sites for Iceland:
 
 - `src/culture/facts.cljc` — the catalog, source of truth (keyed by
-  uppercase ISO3, mirroring the `statute.facts` convention of the
-  iso3166 siblings).
+  uppercase ISO3, mirroring the `statute.facts` convention above).
 - `schema/culture.edn` — DataScript schema.
 - `data/culture-tx.edn` — derived DataScript tx-data (regenerated from
   the catalog, never hand-edited).
