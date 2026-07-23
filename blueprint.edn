@@ -38,9 +38,21 @@
  [request-approval ->] commit/hold StateGraph, `store/append-ledger!`
  called from both the `:commit` and `:hold` nodes), phase.cljc (0->3
  rollout, `:filing/draft`/`:filing/submit` permanently excluded from
- every phase's `:auto` set). 41 tests / 136 assertions passing
- (governor contract + store parity + facts + phase + registry, plus
- this repo's separate `culture` domain namespace, left untouched),
- clj-kondo clean (0 errors, 9 non-fatal unused-binding/unused-require
- warnings, same shape as sibling iso3166 actors and unrelated to this
- change)."}
+ every phase's `:auto` set). Plus src/statute/facts.cljc (general-law
+ compliance catalog, ADR-2607141700 `cloud-itonami-compliance-fact-
+ federation` -- orthogonal to marketentry.facts's procurement-only
+ scope: Lög um einkahlutafélög/Act on Private Limited Companies, Law
+ No. 138/1994; Lög um persónuvernd og vinnslu persónuupplýsinga/Data
+ Protection Act implementing GDPR, Law No. 90/2018; Lög um aðbúnað,
+ hollustuhætti og öryggi á vinnustöðum/Act on Working Environment,
+ Health and Safety in Workplaces, Law No. 46/1980 -- all three
+ independently WebFetch-verified against althingi.is, none
+ duplicating or contradicting the Fjársýslan/Ríkiskaup currency-trap
+ fact `marketentry.facts` already owns), schema/statute.edn (DataScript
+ schema) and data/datascript-tx.edn (derived tx-data), mirroring the
+ cloud-itonami-iso3166-nor/-swe/-dnk/-fin sibling convention. 46 tests
+ / 149 assertions passing (governor contract + store parity + facts +
+ phase + registry + statute, plus this repo's separate `culture` domain
+ namespace, left untouched), clj-kondo clean (0 errors, 9 non-fatal
+ unused-binding/unused-require warnings, same shape as sibling iso3166
+ actors and unrelated to this change)."}
