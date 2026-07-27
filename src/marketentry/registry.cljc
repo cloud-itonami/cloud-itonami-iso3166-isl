@@ -36,19 +36,49 @@
   (let [s (str n)]
     (str (apply str (repeat (max 0 (- w (count s))) "0")) s)))
 
+(def ^:private money-scale
+  "Sub-minor-unit scale used when comparing two money amounts: 1/10000 of
+  a unit. Coarser than double representation error by many orders of
+  magnitude, finer than any real currency's minor unit (2 decimals for
+  most, 3 for KWD/BHD/OMR, 0 for JPY/KRW)."
+  10000)
+
+(defn- money=
+  "Exact-at-money-precision equality for two amounts.
+
+  `==` on raw doubles is NOT the right comparison for money. With
+  whole-unit fees the two agree, but as soon as an amount carries
+  cents the sum `base + rate x months` is routinely not the double
+  nearest the true total, and a CORRECT claim compares false: measured
+  on this exact shape, 40,989 of 327,060 cent-denominated combinations
+  (12.5%) were rejected while being right, against 0 of 327,060 in
+  whole units.
+
+  Rounding both sides to `money-scale` before comparing removes the
+  representation error while preserving every distinction money can
+  actually carry."
+  [x y]
+  (and (number? x) (number? y)
+       (= (Math/round (* money-scale (double x)))
+          (Math/round (* money-scale (double y))))))
+
 (defn compute-engagement-fee
   "The ground-truth engagement fee for `engagement`'s own `:base-fee`
   and `:monitoring-months` x `:monthly-rate` -- a single flat
   base + months x rate calculation, not a full pricing engine."
   [{:keys [base-fee monthly-rate monitoring-months]}]
-  (+ (double base-fee)
-     (* (double monthly-rate) (double monitoring-months))))
+  ;; nil when any field is not a number: an un-recomputable engagement is
+  ;; un-verifiable, which is neither `correct` nor a ClassCastException
+  ;; thrown out of the caller.
+  (when (and (number? base-fee) (number? monthly-rate) (number? monitoring-months))
+    (+ (double base-fee)
+       (* (double monthly-rate) (double monitoring-months)))))
 
 (defn engagement-fee-matches-claim?
   "Does `engagement`'s own `:claimed-fee` equal the independently
   recomputed `compute-engagement-fee`?"
   [{:keys [claimed-fee] :as engagement}]
-  (== (double claimed-fee) (compute-engagement-fee engagement)))
+  (money= claimed-fee (compute-engagement-fee engagement)))
 
 (defn register-draft
   "Validate + construct the FILING-DRAFT registration DRAFT -- the

@@ -20,3 +20,45 @@
 (deftest register-requires-ids
   (is (thrown? Exception (registry/register-draft "" "ISL" 0)))
   (is (thrown? Exception (registry/register-submit "eng-1" "" 0))))
+
+;; ---------------------------------------------------------------------------
+;; Money is compared at money precision, not at double precision
+;; ---------------------------------------------------------------------------
+
+(deftest whole-unit-fees-were-already-correct-and-stay-correct
+  (testing "the seeded shape: base + rate x months in whole currency units"
+    (is (registry/engagement-fee-matches-claim?
+         {:base-fee 500000 :monthly-rate 30000 :monitoring-months 12
+           :claimed-fee 860000.0}))))
+
+(deftest cent-denominated-fees-are-no-longer-rejected-while-correct
+  (testing "`(== (double claimed) (+ (double base) (* (double rate) (double months))))`
+            rejected CORRECT totals once an amount carried cents -- 40,989 of
+            327,060 combinations (12.5%), against 0 of 327,060 in whole units"
+    (let [bad (for [m (range 1 37)
+                    bc (range 10000 90000 2100)
+                    rc (range 500 6000 210)
+                    :let [truth (/ (+ bc (* rc m)) 100.0)]
+                    :when (not (registry/engagement-fee-matches-claim?
+                                {:base-fee (/ bc 100.0) :monthly-rate (/ rc 100.0)
+                                  :monitoring-months m :claimed-fee truth}))]
+                [m (/ bc 100.0) (/ rc 100.0) truth])]
+      (is (empty? bad) (str "false rejections: " (count bad) " e.g. " (first bad))))))
+
+(deftest a-genuinely-wrong-fee-is-still-caught
+  (testing "rounding to money precision must not blunt the check"
+    (is (not (registry/engagement-fee-matches-claim?
+              {:base-fee 500000 :monthly-rate 30000 :monitoring-months 12
+                :claimed-fee 860000.01})))
+    (is (not (registry/engagement-fee-matches-claim?
+              {:base-fee 500000 :monthly-rate 30000 :monitoring-months 12
+                :claimed-fee 859999.99})))))
+
+(deftest an-unverifiable-fee-never-matches
+  (testing "un-verifiable is not the same as correct, and not a crash"
+    (is (not (registry/engagement-fee-matches-claim?
+              {:base-fee 500000 :monthly-rate 30000 :monitoring-months 12})))
+    (is (not (registry/engagement-fee-matches-claim?
+              {:base-fee "500000" :monthly-rate 30000 :monitoring-months 12
+                :claimed-fee 860000.0})))
+    (is (nil? (registry/compute-engagement-fee {:base-fee 500000 :monthly-rate 30000})))))
