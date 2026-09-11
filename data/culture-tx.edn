@@ -1,4 +1,4 @@
-;; data/culture-tx.edn — DataScript tx-data derived from src/culture/facts.cljc
+;; data/culture-tx.edn — DataScript tx-data derived from src/culture/facts.cljk
 ;; `culture.facts/catalog` (ADR-2607171400 addendum 2, Wave 1 country-level).
 ;; Same shape across every cloud-itonami-iso3166-* sibling. Do not hand-edit;
 ;; regenerate from the catalog.

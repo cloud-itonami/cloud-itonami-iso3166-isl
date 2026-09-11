@@ -38,7 +38,7 @@
  [request-approval ->] commit/hold StateGraph, `store/append-ledger!`
  called from both the `:commit` and `:hold` nodes), phase.cljc (0->3
  rollout, `:filing/draft`/`:filing/submit` permanently excluded from
- every phase's `:auto` set). Plus src/statute/facts.cljc (general-law
+ every phase's `:auto` set). Plus src/statute/facts.cljk (general-law
  compliance catalog, ADR-2607141700 `cloud-itonami-compliance-fact-
  federation` -- orthogonal to marketentry.facts's procurement-only
  scope: Lög um einkahlutafélög/Act on Private Limited Companies, Law
