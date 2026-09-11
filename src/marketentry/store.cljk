@@ -9,7 +9,7 @@
                         EAV store.
 
   Both implement the same protocol and pass the same contract
-  (test/marketentry/store_contract_test.clj).
+  (test/marketentry/store_contract_test.cljk).
 
   The primary entity here is an `engagement` -- filing-draft and
   filing-submit actuation events apply SEQUENTIALLY to the SAME

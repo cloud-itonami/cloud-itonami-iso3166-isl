@@ -146,7 +146,7 @@ procurement-specific facts above:
 | data-protection / privacy | Lög um persónuvernd og vinnslu persónuupplýsinga (Data Protection Act, implements EU Regulation 2016/679 GDPR), Law No. 90/2018 | https://www.althingi.is/lagas/nuna/2018090.html |
 | labor / employment | Lög um aðbúnað, hollustuhætti og öryggi á vinnustöðum (Act on Working Environment, Health and Safety in Workplaces), Law No. 46/1980 | https://www.althingi.is/lagas/nuna/1980046.html |
 
-- `src/statute/facts.cljc` — the catalog, source of truth.
+- `src/statute/facts.cljk` — the catalog, source of truth.
 - `schema/statute.edn` — DataScript schema.
 - `data/datascript-tx.edn` — derived DataScript tx-data (regenerated
   from the catalog, never hand-edited).
@@ -167,7 +167,7 @@ This repo carries a **country-level regional-culture catalog**
 Wave 1, in `com-junkawasaki/root`) — national dishes, protected products,
 beverages, crafts, festivals and heritage sites for Iceland:
 
-- `src/culture/facts.cljc` — the catalog, source of truth (keyed by
+- `src/culture/facts.cljk` — the catalog, source of truth (keyed by
   uppercase ISO3, mirroring the `statute.facts` convention above).
 - `schema/culture.edn` — DataScript schema.
 - `data/culture-tx.edn` — derived DataScript tx-data (regenerated from
