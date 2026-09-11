@@ -10,7 +10,7 @@ current Fjársýslan/FMA); domain checks `vsk-unregistered`,
 `fisheries-cap-exceeded`.
 
 ```
-clojure -M:dev:test
+kbb -M:dev:test
 ```
 
 This repository designs a forkable OSS business for an independent
