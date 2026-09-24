@@ -15,7 +15,7 @@
   to energy/aviation/real-estate but NOT fisheries; and the fisheries
   ownership cap fires REGARDLESS of EEA-established status -- the one
   sector where EEA status does not waive the limit."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [langgraph.graph :as g]
             [marketentry.store :as store]
             [marketentry.operation :as op]))
