@@ -1,6 +1,6 @@
 (ns statute.facts-test
   (:require [kotoba.lang.text :as str]
-            [clojure.test :refer [deftest is testing]]
+            [kotoba.test :refer [deftest is testing]]
             [statute.facts :as facts]))
 
 (deftest isl-has-spec-basis

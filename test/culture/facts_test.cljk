@@ -1,7 +1,7 @@
 (ns culture.facts-test
   (:require [clojure.edn :as edn]
             [kotoba.lang.text :as str]
-            [clojure.test :refer [deftest is]]
+            [kotoba.test :refer [deftest is]]
             [culture.facts :as facts]))
 
 (deftest isl-has-culture-basis

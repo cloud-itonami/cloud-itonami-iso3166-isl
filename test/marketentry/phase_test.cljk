@@ -1,5 +1,5 @@
 (ns marketentry.phase-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [marketentry.phase :as phase]))
 
 (deftest filing-submit-never-auto
